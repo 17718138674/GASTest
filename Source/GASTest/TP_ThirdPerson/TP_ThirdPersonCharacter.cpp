@@ -91,8 +91,9 @@ void ATP_ThirdPersonCharacter::BeginPlay()
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
-
-	const_cast<UMyAttributeSet*>(Ast)->HealthChange.AddDynamic(this,&ATP_ThirdPersonCharacter::OnHealthChange);
+	
+	const_cast<UMyAttributeSet*>(Ast)->HealthChange.AddDynamic(this,&ATP_ThirdPersonCharacter::CellHealthChange);
+	const_cast<UMyAttributeSet*>(Ast)->ManaChange.AddDynamic(this,&ATP_ThirdPersonCharacter::CellHealthChange);
 }
 UAbilitySystemComponent* ATP_ThirdPersonCharacter::GetAbilitySystemComponent() const
 {
