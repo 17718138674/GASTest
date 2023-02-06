@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /.idea
 /.vs
 /Binaries
@@ -7,3 +8,12 @@
 /Saved
 
 
+=======
+/Intermediate
+/Saved
+/Binaries
+/DerivedDataCache
+/.idea
+/.vs
+/Plugins/Developer/RiderLink
+>>>>>>> 2a38f4d724f6cd3b2dea69ff16bd80153a2f68d0
