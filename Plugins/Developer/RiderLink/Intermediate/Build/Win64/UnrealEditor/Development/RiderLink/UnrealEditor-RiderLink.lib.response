@@ -6,6 +6,6 @@
 /NAME:"UnrealEditor-RiderLink.dll"
 /IGNORE:4221
 /NODEFAULTLIB
-"D:\GasTest\GASTest\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderLink\Module.RiderLink.cpp.obj"
-"D:\GasTest\GASTest\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderLink\Default.rc2.res"
-/OUT:"D:\GasTest\GASTest\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderLink\UnrealEditor-RiderLink.lib"
+"F:\GitGASTest\GASTest\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderLink\Module.RiderLink.cpp.obj"
+"F:\GitGASTest\GASTest\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderLink\Default.rc2.res"
+/OUT:"F:\GitGASTest\GASTest\Plugins\Developer\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderLink\UnrealEditor-RiderLink.lib"
