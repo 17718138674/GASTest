@@ -26,6 +26,6 @@ public:
 	virtual void StartTargeting(UGameplayAbility* Ability) override;
 	virtual void ConfirmTargetingAndContinue() override;
 	virtual void CancelTargeting() override;
-	bool LineTrace(FHitResult TraceHitResult);
+	bool LineTrace(FHitResult &TraceHitResult);
 	
 };

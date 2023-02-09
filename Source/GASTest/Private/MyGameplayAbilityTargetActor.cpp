@@ -4,6 +4,7 @@
 #include "MyGameplayAbilityTargetActor.h"
 
 #include "Abilities/GameplayAbility.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 
 AMyGameplayAbilityTargetActor::AMyGameplayAbilityTargetActor()
@@ -18,20 +19,18 @@ AMyGameplayAbilityTargetActor::AMyGameplayAbilityTargetActor()
 void AMyGameplayAbilityTargetActor::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-
 	LineTrace(HitResult);
 	if (DebugReticle)
 	{
 		if (HitResult.bBlockingHit)
 		{
-			GEngine->AddOnScreenDebugMessage(0,100.0f,FColor::Blue,FString(HitResult.ImpactPoint.ToString()));
-			DebugReticle->SetActorLocation(HitResult.ImpactPoint,false,nullptr,ETeleportType::None);
-			
+			DebugReticle->SetActorLocation(HitResult.Location,false,nullptr,ETeleportType::None);
+			GEngine->AddOnScreenDebugMessage(3,0.0f,FColor::Purple,FString(HitResult.Location.ToString()));
 		}
 		else
 		{
-			GEngine->AddOnScreenDebugMessage(1,100.0f,FColor::Blue,FString(HitResult.ImpactPoint.ToString()));
 			DebugReticle->SetActorLocation(HitResult.TraceEnd,false,nullptr,ETeleportType::None);
+			GEngine->AddOnScreenDebugMessage(3,0.0f,FColor::Orange,FString(HitResult.TraceEnd.ToString()));
 		}
 		
 	}
@@ -73,7 +72,7 @@ void AMyGameplayAbilityTargetActor::StartTargeting(UGameplayAbility* Ability)
 	OwningAbility=Ability;
 	PrimaryPC=Cast<APlayerController>(Ability->GetOwningActorFromActorInfo()->GetInstigatorController());
 	DebugReticle=SpawnReticle(GetActorLocation(),GetActorRotation());
-	
+	GEngine->AddOnScreenDebugMessage(2,100.0f,FColor::Black,FString(DebugReticle->GetName()));
 }
 
 void AMyGameplayAbilityTargetActor::ConfirmTargetingAndContinue()
@@ -100,26 +99,27 @@ void AMyGameplayAbilityTargetActor::CancelTargeting()
 	DestroyedReticl();
 }
 
-bool AMyGameplayAbilityTargetActor::LineTrace(FHitResult TraceHitResult)
+bool AMyGameplayAbilityTargetActor::LineTrace(FHitResult &TraceHitResult)
 {
 	FVector Location;
 	FRotator Rotator;
 	FCollisionQueryParams QueryParams;
 	QueryParams.bTraceComplex=true;
+	TArray<AActor*> IgnorActor;
 	APawn* PlayerPawn=PrimaryPC->GetPawn();
 	if (PlayerPawn)
 	{
 	
-		QueryParams.AddIgnoredActor(PlayerPawn);
+		IgnorActor.Add(PlayerPawn);
 	}
 
 	//PrimaryPC->GetActorEyesViewPoint(Location,Rotator);
 	PrimaryPC->GetPlayerViewPoint(Location,Rotator);
 	
-	bool bHit =	GetWorld()->LineTraceSingleByChannel(TraceHitResult,Location,Rotator.Vector()*Range+Location,ECC_Visibility,QueryParams);
-	
-	GEngine->AddOnScreenDebugMessage(4,100.0f,FColor::Red,FString(Location.ToString()));
-	GEngine->AddOnScreenDebugMessage(5,100.0f,FColor::Green,FString(Rotator.ToString()));
+	//bool bHit =	GetWorld()->LineTraceSingleByChannel(TraceHitResult,Location,Rotator.Vector()*Range+Location,ECC_Visibility,QueryParams);
+	UKismetSystemLibrary::LineTraceSingle(GetWorld(),Location,Rotator.Vector()*Range+Location,TraceTypeQuery1,true,IgnorActor,EDrawDebugTrace::ForDuration,TraceHitResult,true);
+	GEngine->AddOnScreenDebugMessage(3,0.0f,FColor::Cyan,FString(HitResult.Location.ToString()));
 
-	return  bHit;
+
+	return  TraceHitResult.bBlockingHit;
 }
